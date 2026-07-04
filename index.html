@@ -176,7 +176,7 @@
 
         textarea:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
 
-        /* ===== BAR CHART ===== */
+        /* ===== BUG-FREE BAR CHART ===== */
         .chart-wrapper {
             background: #fff;
             border: 1px solid var(--border);
@@ -219,34 +219,32 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 30px;
-            height: 240px;
+            gap: 20px;
+            height: 280px;
             border-left: 2px solid #999;
             border-bottom: 2px solid #999;
-            padding: 0 15px 0 10px;
+            padding: 10px 15px 0 0;
             margin: 0 auto;
-            max-width: 750px;
-            position: relative;
+            max-width: 800px;
         }
 
-        /* Y-axis labels */
+        /* Y-axis uses flexbox column-reverse to align 0 at bottom, 100 at top */
         .y-axis {
-            position: absolute;
-            left: -40px;
-            top: 0;
-            bottom: 0;
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse;
             justify-content: space-between;
+            height: 220px; /* Matches .bars-container height */
             font-size: 11px;
             color: #777;
+            text-align: right;
+            min-width: 35px;
+            padding-right: 8px;
         }
 
         .bar-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0;
             flex: 1;
             max-width: 120px;
         }
@@ -269,7 +267,6 @@
             font-weight: bold;
             color: #fff;
             transition: height 0.6s ease;
-            position: relative;
         }
 
         .bar.male   { background: var(--male-color); }
@@ -285,10 +282,11 @@
             max-width: 110px;
         }
 
-        /* Responsive */
+        /* Responsive adjustments */
         @media (max-width: 600px) {
-            .chart-area { gap: 12px; height: 200px; }
+            .chart-area { gap: 12px; height: 240px; }
             .bars-container { height: 180px; }
+            .y-axis { height: 180px; }
             .bar { width: 26px; font-size: 10px; }
             .bar-label { font-size: 10px; max-width: 70px; }
             .tab-btn { padding: 10px 12px; font-size: 13px; }
@@ -340,20 +338,20 @@
 
             <p><strong>Complete the notes. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.</strong></p>
 
-            <div class="question">1. Member's Name: Sarah <input type="text" placeholder="..."></div>
-            <div class="question">2. Age: <input type="text" placeholder="..."></div>
+            <div class="question">1. Member's Name: Sarah <input type="text" autocomplete="off" placeholder="..."></div>
+            <div class="question">2. Age: <input type="text" autocomplete="off" placeholder="..."></div>
             <div class="trap-alert">⚠️ <strong>Trap Alert!</strong> Did you write 23? She corrected herself to 24. Always wait for the final answer!</div>
 
-            <div class="question">3. Current address: 42 <input type="text" placeholder="..."> Road</div>
-            <div class="question">4. Phone number: 07700 900 <input type="text" placeholder="..."></div>
-            <div class="question">5. Occupation: <input type="text" placeholder="..."></div>
-            <div class="question">6. Interested in joining the <input type="text" placeholder="..."> class on Tuesdays.</div>
-            <div class="question">7. Needs to bring a <input type="text" placeholder="..."> for the first session.</div>
-            <div class="question">8. Membership fee for students is £<input type="text" placeholder="..."> per month.</div>
+            <div class="question">3. Current address: 42 <input type="text" autocomplete="off" placeholder="..."> Road</div>
+            <div class="question">4. Phone number: 07700 900 <input type="text" autocomplete="off" placeholder="..."></div>
+            <div class="question">5. Occupation: <input type="text" autocomplete="off" placeholder="..."></div>
+            <div class="question">6. Interested in joining the <input type="text" autocomplete="off" placeholder="..."> class on Tuesdays.</div>
+            <div class="question">7. Needs to bring a <input type="text" autocomplete="off" placeholder="..."> for the first session.</div>
+            <div class="question">8. Membership fee for students is £<input type="text" autocomplete="off" placeholder="..."> per month.</div>
             <div class="trap-alert">⚠️ <strong>Trap Alert!</strong> Did you write 20? The text says "normally £20, <strong>BUT</strong>... it's just £15". The word "but" signals a change!</div>
 
-            <div class="question">9. The center is closed on <input type="text" placeholder="..."> mornings for cleaning.</div>
-            <div class="question">10. Her friend needs a <input type="text" placeholder="..."> size shirt.</div>
+            <div class="question">9. The center is closed on <input type="text" autocomplete="off" placeholder="..."> mornings for cleaning.</div>
+            <div class="question">10. Her friend needs a <input type="text" autocomplete="off" placeholder="..."> size shirt.</div>
         </div>
     </div>
 
@@ -414,7 +412,7 @@
             <h3>Task 1: Bar Chart (20 Minutes)</h3>
             <p>The bar chart below shows the percentage of men and women in Australia who participated in five different leisure activities in 2023.</p>
 
-            <!-- ===== 5-BAR CHART ===== -->
+            <!-- ===== 5-BAR CHART (BUG-FREE) ===== -->
             <div class="chart-wrapper">
                 <div class="chart-title">Participation in Leisure Activities in Australia, 2023 (%)</div>
 
@@ -428,6 +426,7 @@
                 </div>
 
                 <div class="chart-area">
+                    <!-- Y-Axis -->
                     <div class="y-axis">
                         <span>100%</span>
                         <span>75%</span>
@@ -436,47 +435,47 @@
                         <span>0%</span>
                     </div>
 
-                    <!-- Bar 1: Watching TV — Men 85%, Women 80% -->
+                    <!-- Bar 1: Watching TV -->
                     <div class="bar-group">
                         <div class="bars-container">
-                            <div class="bar male"   style="height: calc(85% * 2.2);">85%</div>
-                            <div class="bar female" style="height: calc(80% * 2.2);">80%</div>
+                            <div class="bar male"   style="height: 85%;">85%</div>
+                            <div class="bar female" style="height: 80%;">80%</div>
                         </div>
                         <div class="bar-label">Watching TV</div>
                     </div>
 
-                    <!-- Bar 2: Socializing — Men 70%, Women 75% -->
+                    <!-- Bar 2: Socializing -->
                     <div class="bar-group">
                         <div class="bars-container">
-                            <div class="bar male"   style="height: calc(70% * 2.2);">70%</div>
-                            <div class="bar female" style="height: calc(75% * 2.2);">75%</div>
+                            <div class="bar male"   style="height: 70%;">70%</div>
+                            <div class="bar female" style="height: 75%;">75%</div>
                         </div>
                         <div class="bar-label">Socializing</div>
                     </div>
 
-                    <!-- Bar 3: Playing Sports — Men 60%, Women 35% -->
+                    <!-- Bar 3: Playing Sports -->
                     <div class="bar-group">
                         <div class="bars-container">
-                            <div class="bar male"   style="height: calc(60% * 2.2);">60%</div>
-                            <div class="bar female" style="height: calc(35% * 2.2);">35%</div>
+                            <div class="bar male"   style="height: 60%;">60%</div>
+                            <div class="bar female" style="height: 35%;">35%</div>
                         </div>
                         <div class="bar-label">Playing Sports</div>
                     </div>
 
-                    <!-- Bar 4: Gardening — Men 45%, Women 50% -->
+                    <!-- Bar 4: Gardening -->
                     <div class="bar-group">
                         <div class="bars-container">
-                            <div class="bar male"   style="height: calc(45% * 2.2);">45%</div>
-                            <div class="bar female" style="height: calc(50% * 2.2);">50%</div>
+                            <div class="bar male"   style="height: 45%;">45%</div>
+                            <div class="bar female" style="height: 50%;">50%</div>
                         </div>
                         <div class="bar-label">Gardening</div>
                     </div>
 
-                    <!-- Bar 5: Reading — Men 40%, Women 65% -->
+                    <!-- Bar 5: Reading -->
                     <div class="bar-group">
                         <div class="bars-container">
-                            <div class="bar male"   style="height: calc(40% * 2.2);">40%</div>
-                            <div class="bar female" style="height: calc(65% * 2.2);">65%</div>
+                            <div class="bar male"   style="height: 40%;">40%</div>
+                            <div class="bar female" style="height: 65%;">65%</div>
                         </div>
                         <div class="bar-label">Reading</div>
                     </div>
