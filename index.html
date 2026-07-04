@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Academic Mock Exam - Gulsum's Practice</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #f8f9fa;
+            --accent: #ffc107;
+            --text: #333;
+            --border: #dee2e6;
+            --male-color: #3a7bd5;
+            --female-color: #d9534f;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background: #f4f6f9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+
+        header h1 { color: #fff; margin-bottom: 5px; }
+        header p { margin: 0; opacity: 0.9; }
+
+        h2, h3 { color: var(--primary); }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 20px;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .question input[type="text"] {
+            border: none;
+            border-bottom: 2px dashed var(--primary);
+            padding: 4px 8px;
+            width: 120px;
+            font-size: 15px;
+            background: transparent;
+            outline: none;
+        }
+
+        .options label { display: block; margin: 6px 0; cursor: pointer; }
+
+        details {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.05em;
+        }
+
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 100;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .trap-alert {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.92em;
+            border-left: 4px solid #f5c6cb;
+        }
+
+        .teacher-tip {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .teacher-note-box {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 18px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid #bee5eb;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        textarea:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+
+        /* ===== BAR CHART ===== */
+        .chart-wrapper {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px 20px 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .chart-area {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 30px;
+            height: 240px;
+            border-left: 2px solid #999;
+            border-bottom: 2px solid #999;
+            padding: 0 15px 0 10px;
+            margin: 0 auto;
+            max-width: 750px;
+            position: relative;
+        }
+
+        /* Y-axis labels */
+        .y-axis {
+            position: absolute;
+            left: -40px;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #777;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            flex: 1;
+            max-width: 120px;
+        }
+
+        .bars-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 220px;
+        }
+
+        .bar {
+            width: 36px;
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            transition: height 0.6s ease;
+            position: relative;
+        }
+
+        .bar.male   { background: var(--male-color); }
+        .bar.female { background: var(--female-color); }
+
+        .bar-label {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #444;
+            margin-top: 8px;
+            line-height: 1.2;
+            max-width: 110px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .chart-area { gap: 12px; height: 200px; }
+            .bars-container { height: 180px; }
+            .bar { width: 26px; font-size: 10px; }
+            .bar-label { font-size: 10px; max-width: 70px; }
+            .tab-btn { padding: 10px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="timer" id="timer">00:00:00</div>
+
+<div class="container">
+    <header>
+        <h1>📘 IELTS Academic Mock Exam</h1>
+        <p>Prepared for Gulsum &nbsp;|&nbsp; Target: Band 5 → Band 7</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'listening')">🎧 Listening</button>
+        <button class="tab-btn" onclick="openTab(event, 'reading')">📖 Reading</button>
+        <button class="tab-btn" onclick="openTab(event, 'writing')">✍️ Writing</button>
+        <button class="tab-btn" onclick="openTab(event, 'keys')">🔑 Keys & Teacher Notes</button>
+    </div>
+
+    <!-- ==================== LISTENING TAB ==================== -->
+    <div id="listening" class="tab-content active">
+        <h2>Listening Test</h2>
+
+        <div class="section">
+            <h3>Section 1: Sports Center Registration</h3>
+            <p><em>Teacher Note: Read the transcript below carefully. Watch out for the "traps"!</em></p>
+
+            <div style="background:#fff; padding:15px; border:1px dashed #ccc; border-radius:6px; margin-bottom:15px; line-height:1.8;">
+                <strong>🔊 Audio Transcript:</strong><br>
+                <strong>Receptionist:</strong> Good morning, Westside Sports Center. How can I help?<br>
+                <strong>Sarah:</strong> Hi, I'd like to join the gym. My name is Sarah Jenkins.<br>
+                <strong>Receptionist:</strong> Great. Can I have your age, please?<br>
+                <strong>Sarah:</strong> I'm 23. Oh, wait, my birthday was actually yesterday, so I'm 24 now.<br>
+                <strong>Receptionist:</strong> Happy birthday! And your address?<br>
+                <strong>Sarah:</strong> It's 42 Mill Road.<br>
+                <strong>Receptionist:</strong> And a phone number?<br>
+                <strong>Sarah:</strong> It's 07700 900 457.<br>
+                <strong>Receptionist:</strong> Are you currently a student?<br>
+                <strong>Sarah:</strong> Yes, I'm studying business at the university.<br>
+                <strong>Receptionist:</strong> Perfect. The student membership is normally £20, but we have a special offer this month, so it's just £15.<br>
+                <strong>Sarah:</strong> That's great. I'm really interested in the yoga class. Is it still on Tuesdays?<br>
+                <strong>Receptionist:</strong> Yes, Tuesday evenings. Just remember to bring a towel, as we don't provide them. Just so you know, we are closed on Sunday mornings for cleaning.<br>
+                <strong>Sarah:</strong> Okay. Also, my friend Mark wants to join. He needs a medium size shirt if he buys one today.
+            </div>
+
+            <p><strong>Complete the notes. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.</strong></p>
+
+            <div class="question">1. Member's Name: Sarah <input type="text" placeholder="..."></div>
+            <div class="question">2. Age: <input type="text" placeholder="..."></div>
+            <div class="trap-alert">⚠️ <strong>Trap Alert!</strong> Did you write 23? She corrected herself to 24. Always wait for the final answer!</div>
+
+            <div class="question">3. Current address: 42 <input type="text" placeholder="..."> Road</div>
+            <div class="question">4. Phone number: 07700 900 <input type="text" placeholder="..."></div>
+            <div class="question">5. Occupation: <input type="text" placeholder="..."></div>
+            <div class="question">6. Interested in joining the <input type="text" placeholder="..."> class on Tuesdays.</div>
+            <div class="question">7. Needs to bring a <input type="text" placeholder="..."> for the first session.</div>
+            <div class="question">8. Membership fee for students is £<input type="text" placeholder="..."> per month.</div>
+            <div class="trap-alert">⚠️ <strong>Trap Alert!</strong> Did you write 20? The text says "normally £20, <strong>BUT</strong>... it's just £15". The word "but" signals a change!</div>
+
+            <div class="question">9. The center is closed on <input type="text" placeholder="..."> mornings for cleaning.</div>
+            <div class="question">10. Her friend needs a <input type="text" placeholder="..."> size shirt.</div>
+        </div>
+    </div>
+
+    <!-- ==================== READING TAB ==================== -->
+    <div id="reading" class="tab-content">
+        <h2>Reading Test</h2>
+
+        <div class="section">
+            <h3>Passage 1: The Honeybee</h3>
+            <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid var(--border); margin-bottom:15px;">
+                "The queen is the only fertile female and her sole purpose is to lay eggs, <strong>up to 2,000 a day during the spring</strong>. Worker bees are sterile females who perform all the other tasks in the hive, including foraging for nectar..."
+            </div>
+
+            <div class="question">
+                <strong>1.</strong> The queen bee is responsible for foraging for food.<br>
+                <label><input type="radio" name="q1"> TRUE</label>
+                <label><input type="radio" name="q1"> FALSE</label>
+                <label><input type="radio" name="q1"> NOT GIVEN</label>
+            </div>
+
+            <div class="question">
+                <strong>2.</strong> Worker bees are male insects.<br>
+                <label><input type="radio" name="q2"> TRUE</label>
+                <label><input type="radio" name="q2"> FALSE</label>
+                <label><input type="radio" name="q2"> NOT GIVEN</label>
+            </div>
+
+            <div class="question">
+                <strong>3.</strong> A queen bee lays exactly 2,000 eggs every single day of the year.<br>
+                <label><input type="radio" name="q3"> TRUE</label>
+                <label><input type="radio" name="q3"> FALSE</label>
+                <label><input type="radio" name="q3"> NOT GIVEN</label>
+            </div>
+            <div class="trap-alert">⚠️ <strong>Trap Alert!</strong> The answer is <strong>FALSE</strong>. The text says "<em>up to</em>" (a maximum, not exactly) and "<em>during the spring</em>" (not every day of the year). IELTS changes "some" to "all" or "up to" to "exactly" to trick you!</div>
+
+            <div class="question">
+                <strong>4.</strong> Nurse bees are the oldest bees in the hive.<br>
+                <label><input type="radio" name="q4"> TRUE</label>
+                <label><input type="radio" name="q4"> FALSE</label>
+                <label><input type="radio" name="q4"> NOT GIVEN</label>
+            </div>
+
+            <div class="question">
+                <strong>5.</strong> The waggle dance is used to communicate the location of food.<br>
+                <label><input type="radio" name="q5"> TRUE</label>
+                <label><input type="radio" name="q5"> FALSE</label>
+                <label><input type="radio" name="q5"> NOT GIVEN</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== WRITING TAB ==================== -->
+    <div id="writing" class="tab-content">
+        <h2>Writing Test</h2>
+
+        <!-- TASK 1: BAR CHART -->
+        <div class="section">
+            <h3>Task 1: Bar Chart (20 Minutes)</h3>
+            <p>The bar chart below shows the percentage of men and women in Australia who participated in five different leisure activities in 2023.</p>
+
+            <!-- ===== 5-BAR CHART ===== -->
+            <div class="chart-wrapper">
+                <div class="chart-title">Participation in Leisure Activities in Australia, 2023 (%)</div>
+
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-swatch" style="background:var(--male-color);"></span> Men
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-swatch" style="background:var(--female-color);"></span> Women
+                    </div>
+                </div>
+
+                <div class="chart-area">
+                    <div class="y-axis">
+                        <span>100%</span>
+                        <span>75%</span>
+                        <span>50%</span>
+                        <span>25%</span>
+                        <span>0%</span>
+                    </div>
+
+                    <!-- Bar 1: Watching TV — Men 85%, Women 80% -->
+                    <div class="bar-group">
+                        <div class="bars-container">
+                            <div class="bar male"   style="height: calc(85% * 2.2);">85%</div>
+                            <div class="bar female" style="height: calc(80% * 2.2);">80%</div>
+                        </div>
+                        <div class="bar-label">Watching TV</div>
+                    </div>
+
+                    <!-- Bar 2: Socializing — Men 70%, Women 75% -->
+                    <div class="bar-group">
+                        <div class="bars-container">
+                            <div class="bar male"   style="height: calc(70% * 2.2);">70%</div>
+                            <div class="bar female" style="height: calc(75% * 2.2);">75%</div>
+                        </div>
+                        <div class="bar-label">Socializing</div>
+                    </div>
+
+                    <!-- Bar 3: Playing Sports — Men 60%, Women 35% -->
+                    <div class="bar-group">
+                        <div class="bars-container">
+                            <div class="bar male"   style="height: calc(60% * 2.2);">60%</div>
+                            <div class="bar female" style="height: calc(35% * 2.2);">35%</div>
+                        </div>
+                        <div class="bar-label">Playing Sports</div>
+                    </div>
+
+                    <!-- Bar 4: Gardening — Men 45%, Women 50% -->
+                    <div class="bar-group">
+                        <div class="bars-container">
+                            <div class="bar male"   style="height: calc(45% * 2.2);">45%</div>
+                            <div class="bar female" style="height: calc(50% * 2.2);">50%</div>
+                        </div>
+                        <div class="bar-label">Gardening</div>
+                    </div>
+
+                    <!-- Bar 5: Reading — Men 40%, Women 65% -->
+                    <div class="bar-group">
+                        <div class="bars-container">
+                            <div class="bar male"   style="height: calc(40% * 2.2);">40%</div>
+                            <div class="bar female" style="height: calc(65% * 2.2);">65%</div>
+                        </div>
+                        <div class="bar-label">Reading</div>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>Task:</strong> Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.</p>
+            <textarea rows="10" placeholder="Type your Task 1 response here..."></textarea>
+
+            <div class="teacher-tip">
+                💡 <strong>Teacher Tip for Band 7:</strong> Do not just list every number! Group the data. For example, write one paragraph about activities that are popular for <strong>both</strong> men and women (like Watching TV), and another paragraph about activities where men and women are very <strong>different</strong> (like Sports vs Reading).
+            </div>
+        </div>
+
+        <!-- TASK 2: ESSAY -->
+        <div class="section">
+            <h3>Task 2: Essay (40 Minutes)</h3>
+            <p>Some people think that technology has made our lives more complex, while others believe it has made them simpler.</p>
+            <p><strong>Task:</strong> Discuss both these views and give your own opinion. Write at least 250 words.</p>
+            <textarea rows="14" placeholder="Type your Task 2 response here..."></textarea>
+        </div>
+    </div>
+
+    <!-- ==================== KEYS TAB ==================== -->
+    <div id="keys" class="tab-content">
+        <h2>Answer Keys & Teacher Notes</h2>
+
+        <details>
+            <summary>🎧 Listening Answer Key (Questions 1–10)</summary>
+            <ol>
+                <li><strong>Jenkins</strong></li>
+                <li><strong>24</strong> <em>(Trap: she said 23 first, then corrected)</em></li>
+                <li><strong>Mill</strong></li>
+                <li><strong>457</strong></li>
+                <li><strong>student</strong> <em>(Trap: she said "studying business" — IELTS uses synonyms)</em></li>
+                <li><strong>yoga</strong></li>
+                <li><strong>towel</strong></li>
+                <li><strong>15</strong> <em>(Trap: normal price £20, but student offer is £15)</em></li>
+                <li><strong>Sunday</strong></li>
+                <li><strong>medium</strong></li>
+            </ol>
+        </details>
+
+        <details>
+            <summary>📖 Reading Answer Key (Questions 1–5)</summary>
+            <ol>
+                <li><strong>FALSE</strong> — Workers forage; the queen lays eggs.</li>
+                <li><strong>FALSE</strong> — Workers are sterile females, not male.</li>
+                <li><strong>FALSE</strong> — Trap! Text says "<em>up to</em> 2,000" and "<em>during the spring</em>", not "exactly" and "every day".</li>
+                <li><strong>FALSE</strong> — Nurse bees are the youngest, not oldest.</li>
+                <li><strong>TRUE</strong> — The waggle dance indicates direction and distance of food.</li>
+            </ol>
+        </details>
+
+        <details>
+            <summary>✍️ Writing Task 1 — Band 7 Model Answer (Bar Chart)</summary>
+            <p>The bar chart illustrates the proportions of Australian men and women who engaged in five distinct leisure activities in 2023.</p>
+            <p>Overall, it is clear that watching TV was the most popular pastime for both genders, while reading and playing sports showed the most significant gender differences. Generally, men preferred more active or screen-based leisure, whereas women showed higher participation in reading and gardening.</p>
+            <p>Looking at the most popular activities, watching TV was highly favoured by both men (85%) and women (80%). Socialising was also common, with slightly more women (75%) participating compared to men (70%).</p>
+            <p>However, distinct gender preferences emerged in the remaining categories. Playing sports was considerably more popular among men (60%) than women (35%). Conversely, reading was much more prevalent among women (65%) compared to men (40%). Finally, gardening attracted a similar, moderate percentage of both men (45%) and women (50%).</p>
+        </details>
+
+        <div class="teacher-note-box">
+            <h3>👩‍🏫 Teacher's Guide for Gulsum (A1/A2 → Band 5 → 7)</h3>
+            <ul>
+                <li><strong>Grammar:</strong> To reach Band 7, use <em>complex sentences</em> with words like <strong>Although, Because, While, Which</strong>.<br>
+                    <em>Example: "Although technology is useful, it can be stressful."</em></li>
+                <li><strong>Vocabulary:</strong> Learn <em>collocations</em> (words that go together): <em>"heavy rain"</em> (not "thick rain"), <em>"make a decision"</em> (not "do a decision").</li>
+                <li><strong>Exam Strategy:</strong> In Reading, if a question says <strong>"ALL"</strong> or <strong>"EVERY"</strong>, it is usually <strong>FALSE</strong>. The text usually says "some" or "many". Always check details!</li>
+                <li><strong>Writing Task 1:</strong> Always include an <strong>Overview paragraph</strong> (starting with "Overall,…"). Without it, you cannot score above Band 5.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ---- Tab Switching ---- */
+    function openTab(evt, tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    /* ---- Exam Timer ---- */
+    let seconds = 0;
+    setInterval(() => {
+        seconds++;
+        const hrs  = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        document.getElementById('timer').textContent = hrs + ':' + mins + ':' + secs;
+    }, 1000);
+</script>
+
+</body>
+</html>
